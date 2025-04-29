@@ -8,9 +8,63 @@ generator client {
 }
 
 model User {
-    id       Int    @id @default(autoincrement())
-    name     String
-    surname  String
-    email    String @unique
-    password String
+    userID        Int        @id @default(autoincrement())
+    email         String     @unique
+    password      String
+    hasedpassword String
+    role          String
+    Farmer        Farmer?
+    Auditor       Auditor?
+    Committee     Committee?
+    Admin         Admin?
+}
+
+model Farmer {
+    farmerID       Int      @id @default(autoincrement())
+    userID         Int      @unique
+    user           User     @relation(fields: [userID], references: [userID])
+    namePrefix     String
+    firstName      String
+    lastName       String
+    identityNumber String   @unique
+    birthDate      DateTime
+    gender         String
+    houseNo        String
+    villageName    String
+    moo            String
+    road           String
+    alley          String
+    subDistrict    String
+    district       String
+    province       String
+    zipCode        String
+    phoneNumber    String
+    mobileNumber   String
+}
+
+model Auditor {
+    auditorID  Int    @id @default(autoincrement())
+    userID     Int    @unique
+    user       User   @relation(fields: [userID], references: [userID])
+    namePrefix String
+    firstName  String
+    lastName   String
+}
+
+model Committee {
+    committeeID Int    @id @default(autoincrement())
+    userID      Int    @unique
+    user        User   @relation(fields: [userID], references: [userID])
+    namePrefix  String
+    firstName   String
+    lastName    String
+}
+
+model Admin {
+    adminID    Int    @id @default(autoincrement())
+    userID     Int    @unique
+    user       User   @relation(fields: [userID], references: [userID])
+    namePrefix String
+    firstName  String
+    lastName   String
 }
