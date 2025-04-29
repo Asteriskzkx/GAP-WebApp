@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: gap_webapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://postgres:admin@db:5432/gap_webapp
+      NODE_ENV: development
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate deploy && npm run dev"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  db-data:
