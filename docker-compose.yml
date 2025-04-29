@@ -25,7 +25,6 @@ services:
     command: sh -c "npx prisma migrate deploy && npm run dev"
     volumes:
       - .:/app
-      - /app/node_modules
 
 volumes:
   db-data:
